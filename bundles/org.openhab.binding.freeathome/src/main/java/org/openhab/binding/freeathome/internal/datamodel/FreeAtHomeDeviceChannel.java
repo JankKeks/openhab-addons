@@ -71,6 +71,9 @@ public class FreeAtHomeDeviceChannel {
             channelFunctionID = channelFunctionID.substring(0, channelFunctionID.length() - 1) + "0";
         }
 
+        logger.debug("createChannelFromJson - deviceLabel: {} channelLabel {} channelId: {} isScene {} isRule {} ",
+                deviceLabel, channelLabel, channelId, isScene, isRule);
+
         switch (Integer.parseInt(channelFunctionID, 16)) {
             case FID_PANEL_SWITCH_SENSOR:
             case FID_SWITCH_SENSOR: {
@@ -527,6 +530,13 @@ public class FreeAtHomeDeviceChannel {
                 break;
 
             }
+            case FID_SCENE_SENSOR: {
+                this.channelId = channelId;
+
+                logger.error("Scene sensor channel - Channel FID: 0x{} is not yet implemented", channelFunctionID);
+
+                break;
+            }
 
             default: {
                 logger.debug("Unknown channel found - Channel FID: 0x{}", channelFunctionID);
@@ -580,7 +590,7 @@ public class FreeAtHomeDeviceChannel {
             datapointGroups.add(DatapointGroup);
         } else {
             /*
-             * There is no direct 1:1 relationship between Function IDs and the required pairing IDs. As a result, a
+             * There is no constantrelationship between Function IDs and the required pairing IDs. As a result, a
              * "needed" pairing ID may sometimes not exist. In such cases, we avoid adding an invalid datapoint group.
              */
             logger.warn("Datapoint group is not added, because it is not valid");
